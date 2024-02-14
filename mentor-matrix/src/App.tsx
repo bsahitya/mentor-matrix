@@ -2,10 +2,11 @@ import matrixData from './assets/matrix-data.json';
 import ReactDOMServer from 'react-dom/server';
 import Modal from 'react-modal';
 
-import './App.css';
 import { Tooltip } from 'react-tooltip';
 import { useState } from 'react';
 import { RxCross1 } from 'react-icons/rx';
+
+import './App.css';
 
 Modal.setAppElement('#root');
 
