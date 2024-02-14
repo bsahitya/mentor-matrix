@@ -2,3 +2,15 @@
   margin: 0 auto;
   text-align: center;
 }
+
+.bgc-blue {
+  background-color: #385173;
+}
+
+.c-red {
+  color: #f77d87;
+}
+
+.c-gray {
+  color: #292929;
+}
