@@ -47,11 +47,12 @@ function App() {
 
   return (
     <>
-      <table className='table-auto border border-separate border-spacing-1 rounded text-left text-xs md:text-sm bg-gray-300'>
+      <table className='w-full table-auto border border-separate border-spacing-1 rounded text-left text-xs md:text-sm bg-gray-300'>
         <thead className='border-b sticky top-0 z-20 font-semibold dark:border-neutral-500'>
           <tr className='bgc-blue'>
             {columns.map((col, ind) => (
               <th
+                key={`col-${ind}`}
                 scope='col'
                 className={`border rounded p-1.5 md:p-2 dark:border-neutral-500 sticky top-0 bgc-blue font-semibold  ${
                   ind === 0
@@ -64,8 +65,10 @@ function App() {
           </tr>
         </thead>
         <tbody>
-          {data.map((row) => (
-            <tr className='border-b dark:border-neutral-500 align-top bg-neutral-100'>
+          {data.map((row, rowInd) => (
+            <tr
+              className='border-b dark:border-neutral-500 align-top bg-neutral-100'
+              key={`row-${rowInd}`}>
               {row.map((action, ind) => (
                 <td
                   onClick={() =>
@@ -75,6 +78,7 @@ function App() {
                       objective: columns[ind],
                     })
                   }
+                  key={`cell-${rowInd}-${ind}`}
                   data-tooltip-id='td-tooltip'
                   data-tooltip-hidden={!action || ind === 0 || isMobile}
                   data-tooltip-delay-show={700}
@@ -96,7 +100,9 @@ function App() {
                       </div>
                       <ul className='pl-3 py-1 list-disc'>
                         {typeof action !== 'string' ? (
-                          action.map((item) => <li>{item}</li>)
+                          action.map((item, ind) => (
+                            <li key={`tooltip-li-${ind}`}>{item}</li>
+                          ))
                         ) : (
                           <li>{action}</li>
                         )}
@@ -131,7 +137,7 @@ function App() {
             width: `${isMobile ? '85vw' : '60vw'}`,
             margin: '0 auto',
             padding: 0,
-            borderRadius: 15,
+            borderRadius: 6,
           },
         }}>
         <>
@@ -157,7 +163,9 @@ function App() {
           <div className='pl-10 pr-5 pb-4 pt-2'>
             <ul className='list-disc'>
               {typeof modalContent.content !== 'string' ? (
-                modalContent.content.map((item) => <li>{item}</li>)
+                modalContent.content.map((item, ind) => (
+                  <li key={`li-item-${ind}`}>{item}</li>
+                ))
               ) : (
                 <li>{modalContent.content}</li>
               )}
