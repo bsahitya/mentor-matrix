@@ -16,6 +16,8 @@ interface ModalData {
   action: string;
 }
 
+const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+
 function App() {
   const [modalIsOpen, setIsOpen] = useState(false);
   const [modalContent, setModalContent] = useState({
@@ -23,7 +25,7 @@ function App() {
     objective: '',
     action: '',
   });
-  const { columns, newData: data } = matrixData;
+  const { columns, data } = matrixData;
 
   const openModal = (content: ModalData) => {
     if (content.content) {
@@ -43,16 +45,16 @@ function App() {
 
   return (
     <>
-      <table className='min-w-full table-auto border border-separate border-spacing-1 rounded text-left text-sm bg-gray-300'>
+      <table className='table-auto border border-separate border-spacing-1 rounded text-left text-xs md:text-sm bg-gray-300'>
         <thead className='border-b sticky top-0 z-20 font-semibold dark:border-neutral-500'>
           <tr className='bgc-blue'>
             {columns.map((col, ind) => (
               <th
                 scope='col'
-                className={`border rounded px-3 py-2 dark:border-neutral-500 sticky top-0 bgc-blue font-semibold  ${
+                className={`border rounded p-1.5 md:p-2 dark:border-neutral-500 sticky top-0 bgc-blue font-semibold  ${
                   ind === 0
-                    ? 'left-0 z-20 text-2xl font-sans font-bold c-red'
-                    : 'text-base text-white'
+                    ? 'left-0 z-20 md:text-2xl text-base font-sans font-bold c-red'
+                    : 'md:text-base text-white'
                 }`}>
                 {col}
               </th>
@@ -72,7 +74,7 @@ function App() {
                     })
                   }
                   data-tooltip-id='td-tooltip'
-                  data-tooltip-hidden={!action || ind === 0}
+                  data-tooltip-hidden={!action || ind === 0 || isMobile}
                   data-tooltip-delay-show={700}
                   data-tooltip-html={ReactDOMServer.renderToStaticMarkup(
                     <>
@@ -99,9 +101,9 @@ function App() {
                       </ul>
                     </>
                   )}
-                  className={`max-w-72 px-3 py-4 border rounded dark:border-neutral-500 overflow-hidden text-ellipsis whitespace-nowrap ${
+                  className={`max-w-60 md:max-w-80 p-1.5 md:p-2 border rounded dark:border-neutral-500 overflow-hidden text-ellipsis whitespace-nowrap ${
                     ind === 0
-                      ? 'text-base font-semibold bgc-blue sticky left-0 z-10 text-white'
+                      ? 'md:text-base font-semibold bgc-blue sticky left-0 z-10 text-white'
                       : 'z-0 c-gray'
                   } ${!action ? 'bg-zinc-200' : 'cursor-pointer'}`}>
                   {action && typeof action !== 'string' ? action[0] : action}
@@ -124,7 +126,7 @@ function App() {
             zIndex: 20,
           },
           content: {
-            width: '60vw',
+            width: `${isMobile ? '85vw' : '60vw'}`,
             margin: '0 auto',
           },
         }}>
