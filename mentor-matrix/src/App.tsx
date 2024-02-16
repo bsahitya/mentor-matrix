@@ -4,7 +4,7 @@ import Modal from 'react-modal';
 
 import { Tooltip } from 'react-tooltip';
 import { useState } from 'react';
-import { RxCross1 } from 'react-icons/rx';
+import { ImCross } from 'react-icons/im';
 
 import './App.css';
 
@@ -29,12 +29,14 @@ function App() {
 
   const openModal = (content: ModalData) => {
     if (content.content) {
+      document.body.style.overflow = 'hidden';
       setModalContent(content);
       setIsOpen(true);
     }
   };
 
   const closeModal = () => {
+    document.body.style.overflow = 'unset';
     setModalContent({
       content: '' as string | string[],
       objective: '',
@@ -128,31 +130,39 @@ function App() {
           content: {
             width: `${isMobile ? '85vw' : '60vw'}`,
             margin: '0 auto',
+            padding: 0,
+            borderRadius: 15,
           },
         }}>
         <>
-          <div className='flex flex-nowrap items-start pb-3 justify-between'>
+          <div className='flex flex-nowrap items-start p-4 justify-between sticky top-0 bgc-blue'>
             <div>
-              <div className='pb-1.5'>
-                <span className='font-semibold text-xl'>Objective: </span>
+              <div className='pb-1.5 text-white'>
+                <span className='font-semibold text-lg c-red'>Objective: </span>
+                {isMobile ? <br /> : ''}
                 {modalContent.objective}
               </div>
-              <div>
-                <span className='font-semibold text-xl'>Action: </span>
+              <div className='text-white'>
+                <span className='font-semibold text-lg c-red'>Action: </span>
+                {isMobile ? <br /> : ''}
                 {modalContent.action}
               </div>
             </div>
 
-            <RxCross1 onClick={closeModal} className='cursor-pointer mt-1' />
+            <ImCross
+              onClick={closeModal}
+              className='cursor-pointer mt-2 text-white'
+            />
           </div>
-
-          <ul className='pt-1 pl-3 py-1 list-disc'>
-            {typeof modalContent.content !== 'string' ? (
-              modalContent.content.map((item) => <li>{item}</li>)
-            ) : (
-              <li>{modalContent.content}</li>
-            )}
-          </ul>
+          <div className='pl-10 pr-5 pb-4 pt-2'>
+            <ul className='list-disc'>
+              {typeof modalContent.content !== 'string' ? (
+                modalContent.content.map((item) => <li>{item}</li>)
+              ) : (
+                <li>{modalContent.content}</li>
+              )}
+            </ul>
+          </div>
         </>
       </Modal>
     </>
